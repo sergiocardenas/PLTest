@@ -1,13 +1,12 @@
-package com.example.data.datasource
+package com.example.data.mocks
 
 import com.example.data.response.CountryDetailResponse
-import com.example.data.response.CountryFlag
-import com.example.data.response.CountryName
+import com.example.data.response.CountryFlagResponse
+import com.example.data.response.CountryNameResponse
 import com.example.data.response.CountryResponse
 
-
 fun getCountryResponseMock() = CountryResponse(
-    name = CountryName(
+    name = CountryNameResponse(
         common = "Colombia",
         official = "Republic of Colombia",
     ),
@@ -15,14 +14,14 @@ fun getCountryResponseMock() = CountryResponse(
     independent = true,
     status = "officially-assigned",
     unMember = false,
-    flags = CountryFlag(
+    flags = CountryFlagResponse(
         png =  "https://flagcdn.com/w320/co.png",
         svg = "https://flagcdn.com/co.svg",
         alt = "The flag of Colombia is composed of three horizontal bands of yellow, blue and red, with the yellow band twice the height of the other two bands."
     )
 )
 fun getCountryDetailResponseMock() = CountryDetailResponse(
-    name = CountryName(
+    name = CountryNameResponse(
         common = "Colombia",
         official = "Republic of Colombia",
     ),
@@ -33,7 +32,7 @@ fun getCountryDetailResponseMock() = CountryDetailResponse(
     independent = true,
     status = "officially-assigned",
     unMember = false,
-    flags = CountryFlag(
+    flags = CountryFlagResponse(
         png =  "https://flagcdn.com/w320/co.png",
         svg = "https://flagcdn.com/co.svg",
         alt = "The flag of Colombia is composed of three horizontal bands of yellow, blue and red, with the yellow band twice the height of the other two bands."

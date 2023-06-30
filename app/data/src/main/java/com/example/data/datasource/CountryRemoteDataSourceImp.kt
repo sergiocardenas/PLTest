@@ -29,14 +29,18 @@ class CountryRemoteDataSourceImp @Inject constructor(
     override suspend fun getSearchCountry(code: String): Flow<CountryDetailResponse?> = flow {
         val country = withContext(Dispatchers.IO) {
             var searchCountry: List<CountryDetailResponse> = listOf()
-            val result = service.getSearchCountries(code)
-            if(result.isSuccessful){
-                result.body()?.let {
-                    searchCountry = it
+            if(code.isNotEmpty()){
+                val result = service.getSearchCountries(code)
+                if(result.isSuccessful){
+                    result.body()?.let {
+                        searchCountry = it
+                    }
                 }
-            }
-            if(searchCountry.isNotEmpty()){
-                searchCountry[0]
+                if(searchCountry.isNotEmpty()){
+                    searchCountry[0]
+                }else{
+                    null
+                }
             }else{
                 null
             }

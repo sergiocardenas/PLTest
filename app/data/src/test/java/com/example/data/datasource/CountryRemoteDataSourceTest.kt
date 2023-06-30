@@ -1,5 +1,7 @@
 package com.example.data.datasource
 
+import com.example.data.mocks.getCountryDetailResponseMock
+import com.example.data.mocks.getCountryResponseMock
 import com.example.data.response.CountryDetailResponse
 import com.example.data.response.CountryResponse
 import com.example.data.service.ApiService
@@ -87,6 +89,21 @@ class CountryRemoteDataSourceTest{
         val code = "COL"
 
         Mockito.`when`(service.getSearchCountries(code)).thenReturn(retrofitResponse)
+
+        val datasourceResult = dataSource.getSearchCountry(code)
+
+        datasourceResult.collect{
+            assertEquals(it, null)
+        }
+    }
+
+    @Test
+    fun testCountrySearchEmpty(): Unit = runBlocking {
+        val listResponse = listOf(
+            getCountryDetailResponseMock()
+        )
+
+        val code = ""
 
         val datasourceResult = dataSource.getSearchCountry(code)
 
