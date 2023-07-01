@@ -14,18 +14,18 @@ fun CountryNameResponse.toModel() = CountryNameModel(
 )
 
 fun CountryFlagResponse.toModel() = CountryFlagModel(
-    png = png,
-    svg = svg,
-    alt = alt,
+    png = png?:"",
+    svg = svg?:"",
+    alt = alt?:"",
 )
 
 fun CountryResponse.toModel() = CountryModel(
     name = name.toModel(),
-    cioc = cioc,
+    cioc = cioc?:"",
     independent = independent,
     status = status,
     unMember = unMember,
-    flags = flags.toModel(),
+    flags = flags?.toModel() ?: CountryFlagModel("","",""),
 )
 
 fun CountryDetailResponse.toModel() = CountryModel(
@@ -34,5 +34,5 @@ fun CountryDetailResponse.toModel() = CountryModel(
     independent = independent,
     status = status,
     unMember = unMember,
-    flags = flags.toModel(),
+    flags = flags?.toModel() ?: CountryFlagModel("","",""),
 )
