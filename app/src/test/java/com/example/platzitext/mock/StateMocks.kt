@@ -1,9 +1,5 @@
 package com.example.platzitext.mock
 
-import com.example.data.response.CountryDetailResponse
-import com.example.data.response.CountryFlagResponse
-import com.example.data.response.CountryNameResponse
-import com.example.data.response.CountryResponse
 import com.example.domain.model.CountryFlagModel
 import com.example.domain.model.CountryModel
 import com.example.domain.model.CountryNameModel
