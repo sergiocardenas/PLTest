@@ -29,15 +29,15 @@ class CountryDetailViewModel @Inject constructor(
         unMember = false,
         flags = CountryFlagState("","",""),
     )
-    private val _item = MutableStateFlow<CountryState>(empty)
-    val item: StateFlow<CountryState> = _item
+    private val _country = MutableStateFlow<CountryState>(empty)
+    val country: StateFlow<CountryState> = _country
 
     fun searchCountry(code: String){
         _loading.value = true
         viewModelScope.launch {
             useCase.getCountriesSearch(code).collect{country ->
                 _loading.value = false
-                _item.value = country.toState()
+                _country.value = country.toState()
             }
         }
     }

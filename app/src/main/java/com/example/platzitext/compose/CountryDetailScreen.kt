@@ -34,7 +34,7 @@ import com.example.platzitext.viewmodel.CountryDetailViewModel
 fun CountryDetailScreen(
     viewModel: CountryDetailViewModel,
 ) {
-    val item = viewModel.item.collectAsState()
+    val item = viewModel.country.collectAsState()
     val loading = viewModel.loading.collectAsState()
 
     Column(

@@ -90,4 +90,9 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:5.4.0'
     androidTestImplementation 'org.mockito:mockito-android:5.4.0'
     androidTestImplementation 'org.mockito:mockito-kotlin:5.0.0'
+
+    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
 }
