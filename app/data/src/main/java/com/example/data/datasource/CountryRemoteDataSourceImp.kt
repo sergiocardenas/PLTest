@@ -26,6 +26,20 @@ class CountryRemoteDataSourceImp @Inject constructor(
         emit(list)
     }
 
+    override suspend fun getRegionCountries(region: String): Flow<List<CountryResponse>> = flow {
+        val list = withContext(Dispatchers.IO) {
+            var regionList: List<CountryResponse> = listOf()
+            val result = service.getRegionCountries(region)
+            if(result.isSuccessful){
+                result.body()?.let {
+                    regionList = it
+                }
+            }
+            regionList
+        }
+        emit(list)
+    }
+
     override suspend fun getSearchCountry(code: String): Flow<CountryDetailResponse?> = flow {
         val country = withContext(Dispatchers.IO) {
             var searchCountry: List<CountryDetailResponse> = listOf()

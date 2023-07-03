@@ -3,7 +3,7 @@ package com.example.platzitext.viewmodel
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.GetCountryAllUseCase
+import com.example.domain.usecase.GetRegionCountriesUseCase
 import com.example.platzitext.mapper.toState
 import com.example.platzitext.state.CountryPageState
 import com.example.platzitext.state.CountryState
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CountryListViewModel @Inject constructor(
-    private val useCase: GetCountryAllUseCase
+    private val useCase: GetRegionCountriesUseCase
 ): ViewModel() {
 
     private val _loading = MutableStateFlow<Boolean>(false)
@@ -24,20 +24,20 @@ class CountryListViewModel @Inject constructor(
     private val _list = MutableStateFlow<List<CountryState>>(mutableListOf())
     val list: StateFlow<List<CountryState>> = _list
 
-    private val _regionlist = MutableStateFlow<List<String>>(mutableListOf("America", "Asia", "Europa"))
+    private val _regionlist = MutableStateFlow<List<String>>(mutableListOf("America", "Asia", "Europe"))
     private val _index = MutableStateFlow<Int>(0)
 
     private val _page = MutableStateFlow<CountryPageState>(updatePage())
     val page: StateFlow<CountryPageState> = _page
 
     init {
-        searchCountryList()
+        searchCountryList(_page.value.region)
     }
 
-    fun searchCountryList(){
+    fun searchCountryList(region: String){
         viewModelScope.launch {
             _loading.value = true
-            useCase.getAllCountries().collect{ listResult ->
+            useCase.getRegionCountries(region).collect{ listResult ->
                 _loading.value = false
                 if(listResult.isNotEmpty()){
                     _list.value = listResult.map { it.toState() }
@@ -60,16 +60,23 @@ class CountryListViewModel @Inject constructor(
         hasPrevious = hasPrevious()
     )
 
-    fun goNextPage(){
-        if(_page.value.hasNext){
+    fun goNextPage(): Boolean {
+        return if(_page.value.hasNext && !_loading.value){
             _index.value = _index.value+1
             _page.value = updatePage()
+            true
+        }else{
+            false
         }
     }
-    fun goPreviousPage(){
-        if(_page.value.hasPrevious){
+    fun goPreviousPage():Boolean {
+        return if(_page.value.hasPrevious && !_loading.value){
             _index.value = _index.value-1
             _page.value = updatePage()
+            searchCountryList(_page.value.region)
+            true
+        }else{
+            false
         }
     }
 

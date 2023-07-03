@@ -7,6 +7,8 @@ import com.example.domain.usecase.GetCountryAllUseCase
 import com.example.domain.usecase.GetCountryAllUseCaseImp
 import com.example.domain.usecase.GetCountrySearchUseCase
 import com.example.domain.usecase.GetCountrySearchUseCaseImp
+import com.example.domain.usecase.GetRegionCountriesUseCase
+import com.example.domain.usecase.GetRegionCountriesUseCaseImp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +28,11 @@ class DomainModule {
     @Provides
     fun provideCountryListUseCase(repository: CountryRemoteRepository): GetCountryAllUseCase =
         GetCountryAllUseCaseImp(repository)
+
+    @Singleton
+    @Provides
+    fun provideRegionCountriesUseCase(repository: CountryRemoteRepository): GetRegionCountriesUseCase =
+        GetRegionCountriesUseCaseImp(repository)
 
     @Singleton
     @Provides

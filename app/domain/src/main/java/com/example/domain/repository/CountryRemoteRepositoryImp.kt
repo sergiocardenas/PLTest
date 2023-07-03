@@ -18,6 +18,12 @@ class CountryRemoteRepositoryImp @Inject constructor(
         }
     }
 
+    override suspend fun getRegionCountries(region: String): Flow<List<CountryModel>> {
+        return remoteDataSource.getRegionCountries(region).map { listAll ->
+            listAll.map { it.toModel() }
+        }
+    }
+
     override suspend fun getSearchCountry(code: String): Flow<CountryModel> {
         return remoteDataSource.getSearchCountry(code).map { countryRes ->
             var country = CountryModel(

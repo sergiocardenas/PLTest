@@ -63,6 +63,43 @@ class CountryRemoteRepositoryTest{
     }
 
     @Test
+    fun testCountryRegionList(): Unit = runBlocking {
+        val listResponse = listOf(
+            getCountryResponseMock()
+        )
+
+        val region = "America"
+
+        Mockito.`when`(dataSource.getRegionCountries(region)).thenReturn(flowOf(listResponse))
+
+        val resultModel= getCountryModelMock()
+
+        val countryList = repository.getRegionCountries(region)
+
+        countryList.collect{
+            Assert.assertEquals(it.size, 1)
+            Assert.assertEquals(it[0].cioc, resultModel.cioc)
+            Assert.assertEquals(it[0].name.common, resultModel.name.common)
+            Assert.assertEquals(it[0].flags.png, resultModel.flags.png)
+        }
+    }
+
+    @Test
+    fun testCountryRegionListError(): Unit = runBlocking {
+        val listResponse = listOf<CountryResponse>()
+
+        val region = "America"
+
+        Mockito.`when`(dataSource.getRegionCountries(region)).thenReturn(flowOf(listResponse))
+
+        val countryList = repository.getRegionCountries(region)
+
+        countryList.collect{
+            Assert.assertEquals(it.size, 0)
+        }
+    }
+
+    @Test
     fun testCountrySearch(): Unit = runBlocking {
         val listResponse = getCountryDetailResponseMock()
         val code = "COL"

@@ -63,6 +63,42 @@ class CountryRemoteDataSourceTest{
     }
 
     @Test
+    fun testCountryRegionList(): Unit = runBlocking {
+        val listResponse = listOf(
+            getCountryResponseMock()
+        )
+
+        val region = "America"
+
+        val retrofitResponse = Response.success(listResponse)
+
+        Mockito.`when`(service.getRegionCountries(region)).thenReturn(retrofitResponse)
+
+        val datasourceResult = dataSource.getRegionCountries(region)
+        val resultCountry = getCountryResponseMock()
+
+        datasourceResult.collect{
+            assertEquals(it.size, 1)
+            assertEquals(it[0].name.common, resultCountry.name.common)
+        }
+    }
+
+    @Test
+    fun testCountryRegionListFail(): Unit = runBlocking {
+        val retrofitResponse = Response.error<List<CountryResponse>>(500, "Error".toResponseBody())
+
+        val region = "America"
+
+        Mockito.`when`(service.getRegionCountries(region)).thenReturn(retrofitResponse)
+
+        val datasourceResult = dataSource.getRegionCountries(region)
+
+        datasourceResult.collect{
+            assertEquals(it.size, 0)
+        }
+    }
+
+    @Test
     fun testCountrySearch(): Unit = runBlocking {
         val listResponse = listOf(
             getCountryDetailResponseMock()

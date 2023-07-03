@@ -58,7 +58,10 @@ fun CountryListScreen(
         ) {
             IconButton(
                 onClick = {
-                    viewModel.goPreviousPage()
+                    val fetch = viewModel.goPreviousPage()
+                    if(fetch){
+                        viewModel.searchCountryList(viewModel.page.value.region)
+                    }
                 },
                 modifier = Modifier
                     .size(24.dp)
@@ -103,7 +106,10 @@ fun CountryListScreen(
 
             IconButton(
                 onClick = {
-                    viewModel.goNextPage()
+                    val fetch = viewModel.goNextPage()
+                    if(fetch){
+                        viewModel.searchCountryList(viewModel.page.value.region)
+                    }
                 },
                 modifier = Modifier
                     .size(24.dp)
