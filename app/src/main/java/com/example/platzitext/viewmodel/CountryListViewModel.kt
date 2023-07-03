@@ -15,8 +15,15 @@ import javax.inject.Inject
 class CountryListViewModel @Inject constructor(
     private val useCase: GetCountryAllUseCase
 ): ViewModel() {
+
+    private val _loading = MutableStateFlow<Boolean>(false)
+    val loading: StateFlow<Boolean> = _loading
+
     private val _list = MutableStateFlow<List<CountryState>>(mutableListOf())
     val list: StateFlow<List<CountryState>> = _list
+
+    private val _index = MutableStateFlow<Int>(0)
+    val index: StateFlow<Int> = _index
 
     init {
         searchCountryList()
@@ -24,7 +31,9 @@ class CountryListViewModel @Inject constructor(
 
     fun searchCountryList(){
         viewModelScope.launch {
+            _loading.value = true
             useCase.getAllCountries().collect{ listResult ->
+                _loading.value = false
                 if(listResult.isNotEmpty()){
                     _list.value = listResult.map { it.toState() }
                 }else{

@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/DetailFragment"
-        android:name="com.example.platzitext.fragment.CounytryDetailFragment"
+        android:name="com.example.platzitext.fragment.CountryDetailFragment"
         android:label="detail_fragment_label"
-        tools:layout="@layout/fragment_counytry_detail">
+        tools:layout="@layout/fragment_country_detail">
 
         <action
             android:id="@+id/action_DetailFragment_to_ListFragment"
